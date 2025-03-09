@@ -1,0 +1,31 @@
+import { test, expect } from '@my_playwright';
+import axios from 'my_axios';
+
+test('Temperature of Islamabad using OpenWeather API', async () => {
+    // API details and key after signup to Openweather API
+    const apiKey = '8f3958f0ae0e10fd9ef4ee1ea9965711'; // API Key after signup to openweather API
+    const city = 'Islamabad';
+    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+    let response;
+    try {
+        // GET request to the OpenWeather API
+        response = await axios.get(apiUrl);
+    } catch (error) {
+        console.error('Error fetching weather data:', error);
+        throw error;
+    }
+
+    // success response
+    expect(response.status).toBe(200);
+
+    // Extract temperature of Islamabad
+    const temperature = response.data.main.temp;
+    console.log(`Temperature in ${city}: ${temperature}°C`);
+
+    // temperature in Number
+    expect(temperature).toBeDefined();
+    expect(typeof temperature).toBe('number');
+
+  
+});
